@@ -1,0 +1,36 @@
+- hosts: webservers
+  remote_user: ubuntu
+  become_user: root
+  become_method: sudo
+  become: yes
+
+  tasks:
+    - name: make sure that apache is installed
+      apt:
+         name: apache2
+         state: latest
+         update_cache: yes
+    - name: make sure apache is running
+      service:
+        name: apache2
+        state: started
+    - name: copy a index file to document root of webserevers machine
+      copy:
+        dest: /var/www/html/index.html
+        src: /home/ansible/.ansible/index.html
+        owner: root
+        group: root
+        mode: 0644   
+    - name: copy a configuration into sites-enabled folder
+      copy:
+        dest: /etc/apache2/sites-enabled/basil.conf
+        src: /home/ansible/.ansible/basil.com.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart apache2 
+  handlers:
+    - name: restart apache2
+      service:
+        name: apache2
+        state: restarted

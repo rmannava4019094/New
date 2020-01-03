@@ -1,0 +1,11 @@
+name: basil(variable)
+skills: (list)
+ - javascript
+    jenkins:good
+    git:good
+ - devops
+ - scripting
+profile: (dictionry)
+ name: basil
+ job: sf
+ exp: 12
